@@ -244,13 +244,13 @@ export namespace realtimebidding_v1 {
    */
   export interface Schema$CreativeServingDecision {
     /**
-     * The serving status of this creative in China. When approved or disapproved, this status applies to both deals and open auction in China. When pending review, this creative is allowed to serve for deals but not for open auction.
+     * The policy compliance of this creative in China. When approved or disapproved, this applies to both deals and open auction in China. When pending review, this creative is allowed to serve for deals but not for open auction.
      */
-    chinaServingStatus?: Schema$ServingStatus;
+    chinaPolicyCompliance?: Schema$PolicyCompliance;
     /**
-     * Status of this creative when bidding on PG and PD deals (outside of Russia and China).
+     * Policy compliance of this creative when bidding on Programmatic Guaranteed and Preferred Deals (outside of Russia and China).
      */
-    dealsServingStatus?: Schema$ServingStatus;
+    dealsPolicyCompliance?: Schema$PolicyCompliance;
     /**
      * Detected advertisers and brands.
      */
@@ -288,13 +288,17 @@ export namespace realtimebidding_v1 {
      */
     lastStatusUpdate?: string | null;
     /**
-     * Status of this creative when bidding in open auction, private auction, or auction packages (outside of Russia and China).
+     * Policy compliance of this creative when bidding in open auction, private auction, or auction packages (outside of Russia and China).
      */
-    openAuctionServingStatus?: Schema$ServingStatus;
+    networkPolicyCompliance?: Schema$PolicyCompliance;
     /**
-     * The serving status of this creative in Russia. When approved or disapproved, this status applies to both deals and open auction in Russia. When pending review, this creative is allowed to serve for deals but not for open auction.
+     * Policy compliance of this creative when bidding in Open Bidding (outside of Russia and China). For the list of platform policies, see: https://support.google.com/platformspolicy/answer/3013851.
      */
-    russiaServingStatus?: Schema$ServingStatus;
+    platformPolicyCompliance?: Schema$PolicyCompliance;
+    /**
+     * The policy compliance of this creative in Russia. When approved or disapproved, this applies to both deals and open auction in Russia. When pending review, this creative is allowed to serve for deals but not for open auction.
+     */
+    russiaPolicyCompliance?: Schema$PolicyCompliance;
   }
   /**
    * Represents a whole or partial calendar date, e.g. a birthday. The time of day and time zone are either specified elsewhere or are not significant. The date is relative to the Proleptic Gregorian Calendar. This can represent: * A full date, with non-zero year, month and day values * A month and day value, with a zero year, e.g. an anniversary * A year on its own, with zero month and day values * A year and month value, with a zero day, e.g. a credit card expiration date Related types are google.type.TimeOfDay and `google.protobuf.Timestamp`.
@@ -577,6 +581,19 @@ export namespace realtimebidding_v1 {
    */
   export interface Schema$OpenUserListRequest {}
   /**
+   * Policy compliance of the creative for a transaction type or a region.
+   */
+  export interface Schema$PolicyCompliance {
+    /**
+     * Serving status for the given transaction type (e.g., open auction, deals) or region (e.g., China, Russia). Can be used to filter the response of the creatives.list method.
+     */
+    status?: string | null;
+    /**
+     * Topics related to the policy compliance for this transaction type (e.g., open auction, deals) or region (e.g., China, Russia). Topics may be present only if status is DISAPPROVED.
+     */
+    topics?: Schema$PolicyTopicEntry[];
+  }
+  /**
    * Each policy topic entry will represent a violation of a policy topic for a creative, with the policy topic information and optional evidence for the policy violation.
    */
   export interface Schema$PolicyTopicEntry {
@@ -625,19 +642,6 @@ export namespace realtimebidding_v1 {
      * Evidence for HTTP cookie-related policy violations.
      */
     httpCookie?: Schema$HttpCookieEvidence;
-  }
-  /**
-   * Serving status of the creative for a transaction type or a region.
-   */
-  export interface Schema$ServingStatus {
-    /**
-     * Serving status for the given transaction type (e.g., open auction, deals) or region (e.g., China, Russia). Can be used to filter the response of the creatives.list method.
-     */
-    status?: string | null;
-    /**
-     * Policy topics related to the serving decision for this transaction type (e.g., open auction, deals) or region (e.g., China, Russia). Topics may be present only if status is DISAPPROVED.
-     */
-    topics?: Schema$PolicyTopicEntry[];
   }
   /**
    * The URL-level breakdown for the download size.
